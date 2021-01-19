@@ -18,5 +18,9 @@ public class IOCTest {
         for(String name:definitionNames){
             System.out.println(name);
         }
+
+        Object bean = applicationContext1.getBean("person");
+        Object bean2 = applicationContext1.getBean("person");
+        System.out.println(bean==bean2);
     }
 }

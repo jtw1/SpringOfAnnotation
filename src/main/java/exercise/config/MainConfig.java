@@ -1,10 +1,7 @@
 package exercise.config;
 
 import exercise.bean.Person;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.*;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -13,12 +10,15 @@ import org.springframework.stereotype.Controller;
  */
 @Configuration //告诉spring这是个配置文件
 @ComponentScan(value = "exercise",includeFilters = {
-        @ComponentScan.Filter(type = FilterType.ANNOTATION,classes = {Controller.class})
+        @ComponentScan.Filter(type = FilterType.ANNOTATION,classes = {Controller.class}),
+        @ComponentScan.Filter(type = FilterType.CUSTOM,classes = {MyTypeFilter.class})
 },useDefaultFilters = false)
 //value:指定要扫描的包
 // excludeFilters=Filter[] 指定扫描时按照什么规则排除那些组件
 // includeFilters=Filter[] 指定扫描时只需要包含那些组件
 public class MainConfig {
+    @Scope    //默认是单实例的
+    @Lazy   //懒加载
     @Bean("person")
     //给容器中注册一个bean
     //类型是返回值类型   id默认是方法名
