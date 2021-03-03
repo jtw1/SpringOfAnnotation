@@ -2,15 +2,14 @@ package exercise.test;
 
 import exercise.Dao.PersonDao;
 import exercise.bean.Person;
-import exercise.config.MainConfig;
-import exercise.config.MainConfigOfAutowired;
-import exercise.config.MainConfigOfLIfeCycle;
-import exercise.config.MainConfigOfPropertyValue;
+import exercise.config.*;
 import exercise.service.PersonService;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
+
+import javax.sql.DataSource;
 
 /**
  * @Description
@@ -67,6 +66,14 @@ public class IOCTest {
         annotationConfigApplicationContext.close();
     }
 
+    @Test
+    public void testProfile(){
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MainConfigOfProfile.class);
+        String[] dataSources = context.getBeanNamesForType(DataSource.class);
+        for (String str : dataSources) {
+            System.out.println(str);
+        }
+    }
 
     private void printBeans(AnnotationConfigApplicationContext applicationContext){
         String[] BeanNames=applicationContext.getBeanDefinitionNames();
