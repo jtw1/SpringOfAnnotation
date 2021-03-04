@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.EmbeddedValueResolverAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.util.StringValueResolver;
 
@@ -13,7 +14,7 @@ import java.beans.PropertyVetoException;
 
 /**
  * @Description profile:Spring为我们提供的可以根据当前环境，动态的激活和切换一系列组件的功能
- * @profile 指定组件在那个环境的情况下才能被注册到容器中
+ * @profile 指定组件在那个环境的情况下才能被注册到容器中   (没有加这个注解表示任何环境下都能注册)
  * @date 2021/3/3 0003-16:42
  */
 @PropertySource("classpath:/dbconfig.properties")
@@ -25,6 +26,7 @@ public class MainConfigOfProfile implements EmbeddedValueResolverAware {
     private StringValueResolver valueResolver;
     private String driverClass;
 
+    @Profile("Test")
     @Bean("testDataSource")
     public DataSource dataSourceOfTest(@Value("${db.password}") String pwd) throws PropertyVetoException {
         ComboPooledDataSource source = new ComboPooledDataSource();
@@ -34,7 +36,7 @@ public class MainConfigOfProfile implements EmbeddedValueResolverAware {
         source.setDriverClass(driverClass);
         return source;
     }
-
+    @Profile("develop")
     @Bean("devDataSource")
     public DataSource dataSourceOfDev(@Value("${db.password}") String pwd) throws PropertyVetoException {
         ComboPooledDataSource source = new ComboPooledDataSource();
@@ -44,7 +46,7 @@ public class MainConfigOfProfile implements EmbeddedValueResolverAware {
         source.setDriverClass(driverClass);
         return source;
     }
-
+    @Profile("produce")
     @Bean("produceDataSource")
     public DataSource dataSourceOfProduce(@Value("${db.password}") String pwd) throws PropertyVetoException {
         ComboPooledDataSource source = new ComboPooledDataSource();

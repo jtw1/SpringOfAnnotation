@@ -1,12 +1,14 @@
 package exercise.test;
 
 import exercise.Dao.PersonDao;
+import exercise.aop.MathCalculator;
 import exercise.bean.Person;
 import exercise.config.*;
 import exercise.service.PersonService;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import javax.sql.DataSource;
@@ -15,6 +17,7 @@ import javax.sql.DataSource;
  * @Description
  * @date 2021/1/17-16:02
  */
+
 public class IOCTest {
     @SuppressWarnings("resource")
     @Test
@@ -68,12 +71,28 @@ public class IOCTest {
 
     @Test
     public void testProfile(){
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MainConfigOfProfile.class);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        //先创建一个applicationContext，再设置需要激活的环境
+        context.getEnvironment().setActiveProfiles("develop","Test");
+        // 再注册主配置类，
+        context.register(MainConfigOfProfile.class);
+        // 再启动刷新容器
+        context.refresh();
+
         String[] dataSources = context.getBeanNamesForType(DataSource.class);
         for (String str : dataSources) {
             System.out.println(str);
         }
     }
+
+    @Test
+    public void testAOP(){
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfigOfAOP.class);
+        // 不要自己创建对象，要使用spring容器中的对象
+        MathCalculator mathCalculator = applicationContext.getBean(MathCalculator.class);
+        mathCalculator.div(6,2);
+    }
+
 
     private void printBeans(AnnotationConfigApplicationContext applicationContext){
         String[] BeanNames=applicationContext.getBeanDefinitionNames();
