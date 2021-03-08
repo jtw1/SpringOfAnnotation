@@ -40,5 +40,7 @@
     <orderEntry type="library" name="Maven: com.mchange:c3p0:0.9.5.5" level="project" />
     <orderEntry type="library" name="Maven: com.mchange:mchange-commons-java:0.2.19" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.44" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:4.3.12.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-tx:4.3.12.RELEASE" level="project" />
   </component>
 </module>

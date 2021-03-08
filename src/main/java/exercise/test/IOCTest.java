@@ -5,6 +5,8 @@ import exercise.aop.MathCalculator;
 import exercise.bean.Person;
 import exercise.config.*;
 import exercise.service.PersonService;
+import exercise.service.UserService;
+import exercise.tx.TxConfig;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -93,6 +95,13 @@ public class IOCTest {
         mathCalculator.div(6,2);
     }
 
+    @Test
+    public void testTx(){
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TxConfig.class);
+        UserService userService = context.getBean(UserService.class);
+        userService.insertUser();
+        context.close();
+    }
 
     private void printBeans(AnnotationConfigApplicationContext applicationContext){
         String[] BeanNames=applicationContext.getBeanDefinitionNames();
